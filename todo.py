@@ -1,5 +1,7 @@
-from fastapi import FastAPI, HTTPException
-from typing import List, Optional
+from fastapi import FastAPI, HTTPException, status
+from typing import List, Optional, Annotated
+
+from fastapi.params import Form
 from pydantic import BaseModel
 
 
@@ -53,4 +55,9 @@ async def delete_todo(todo_id: int):
         store_todo.pop(todo_id)
         return obj
     except:
-        raise HTTPException(status_code=404, detail="todo not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+
+# Test des form data : format generalement utilisé lorsque les donnees a envoyer contiennent des fichiers
+@app.post("/login")
+async def login(username: Annotated[str, Form()], password: Annotated[str, Form()]):
+    return {"username": username}
