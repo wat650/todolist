@@ -41,7 +41,7 @@ async def get_todo(todo_id: int):
 
 @app.post("/todos", response_model=todo_pydantic)
 async def create_todo(todo: todo_in_pydantic):
-    todo_obj = await Todo.create(**todo.dict(exclude_unset=True))
+    todo_obj = await Todo.create(**todo.dict(exclude_unset=True)) # exclude_unset=True : ignore les champs non fournis (optionnels)
     return await todo_pydantic.from_tortoise_orm(todo_obj)
 
 
